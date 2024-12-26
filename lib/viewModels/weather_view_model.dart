@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:weather_app/components/enums.dart';
 import 'package:weather_app/models/weather_model.dart';
 import 'package:weather_app/services/weather_service.dart';
 
 class WeatherViewModel extends ChangeNotifier {
   WeatherViewModel();
   final _weatherService =
-      WeatherService(apiKey: 'Your API key');
-
+      WeatherService(apiKey: '304d3c4e1a4a5bc9ab1f59a28c0e501e');
+ Status status  = Status.idle;
+ setStatus(Status value){
+  status = value;
+  notifyListeners();
+ }
   initView() async {
     await fetchWeather();
     await fetchSpecificCityWeather();
@@ -21,20 +26,25 @@ class WeatherViewModel extends ChangeNotifier {
   Weather? _specificCityWeather;
   Weather? get specificCityWeather => _specificCityWeather;
   Future fetchWeather() async {
+    setStatus(Status.busy);
     String cityName = await _weatherService.getCurrenCityName();
     _weather = await _weatherService.getCityWeather(cityName: cityName);
+    setStatus(Status.idle);
     notifyListeners();
   }
 
   Future fetchSpecificCityWeather() async {
+    setStatus(Status.busy);
     if (_searchCity.text.isNotEmpty || _searchCity.text != '') {
       String cityName = _searchCity.text.toLowerCase();
       _specificCityWeather =
           await _weatherService.getCityWeather(cityName: cityName);
+          setStatus(Status.idle);
     } else {
       final cName = await _weatherService.getCurrenCityName();
       _specificCityWeather =
           await _weatherService.getCityWeather(cityName: cName);
+          setStatus(Status.idle);
     }
     notifyListeners();
   }

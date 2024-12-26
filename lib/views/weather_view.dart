@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
+import 'package:weather_app/components/enums.dart';
 import 'package:weather_app/viewModels/weather_view_model.dart';
 import 'package:weather_app/views/more_cities_view.dart';
 
@@ -39,11 +40,10 @@ class WeatherView extends StatelessWidget {
           ),
           centerTitle: true,
         ),
-        body: viewModel.weather == null
-            ? const Center(
+        body:viewModel.status == Status.busy ? const Center(
                 child: CircularProgressIndicator(),
-              )
-            : Center(
+              ) 
+            : viewModel.weather?.cityName.isEmpty ? Center(child: Text("No City Found ", style: GoogleFonts.manrope(fontSize: 20, fontWeight:FontWeight.w400 ),),): Center(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
