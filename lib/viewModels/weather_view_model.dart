@@ -5,7 +5,7 @@ import 'package:weather_app/services/weather_service.dart';
 class WeatherViewModel extends ChangeNotifier {
   WeatherViewModel();
   final _weatherService =
-      WeatherService(apiKey: '304d3c4e1a4a5bc9ab1f59a28c0e501e');
+      WeatherService(apiKey: 'Your API key');
 
   initView() async {
     await fetchWeather();
