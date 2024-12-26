@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:weather_app/app_routes/app_route_constants.dart';
 import 'package:weather_app/components/enums.dart';
+import 'package:weather_app/models/routes_model.dart';
 import 'package:weather_app/models/weather_model.dart';
+import 'package:weather_app/service_locator.dart';
 import 'package:weather_app/services/weather_service.dart';
 
 class WeatherViewModel extends ChangeNotifier {
   WeatherViewModel();
-  final _weatherService =
-      WeatherService(apiKey: '304d3c4e1a4a5bc9ab1f59a28c0e501e');
- Status status  = Status.idle;
- setStatus(Status value){
-  status = value;
-  notifyListeners();
- }
+  final _weatherService = locator<WeatherService>();
+
+  Status status = Status.idle;
+  setStatus(Status value) {
+    status = value;
+    notifyListeners();
+  }
+
   initView() async {
     await fetchWeather();
     await fetchSpecificCityWeather();
@@ -39,12 +43,12 @@ class WeatherViewModel extends ChangeNotifier {
       String cityName = _searchCity.text.toLowerCase();
       _specificCityWeather =
           await _weatherService.getCityWeather(cityName: cityName);
-          setStatus(Status.idle);
+      setStatus(Status.idle);
     } else {
       final cName = await _weatherService.getCurrenCityName();
       _specificCityWeather =
           await _weatherService.getCityWeather(cityName: cName);
-          setStatus(Status.idle);
+      setStatus(Status.idle);
     }
     notifyListeners();
   }
@@ -71,4 +75,27 @@ class WeatherViewModel extends ChangeNotifier {
         return 'Assets/Lottie/sunny.json';
     }
   }
+
+  List<RoutesModel> routesList = [
+    RoutesModel(
+      tabTitle: 'Favorites',
+      routeTitle: AppRoutesConstants.favoritesView,
+    ),
+    RoutesModel(
+      tabTitle: "Profile",
+      routeTitle: AppRoutesConstants.profileView,
+    ),
+    RoutesModel(
+      tabTitle: 'Favorites',
+      routeTitle: AppRoutesConstants.favoritesView,
+    ),
+    RoutesModel(
+      tabTitle: "Profile",
+      routeTitle: AppRoutesConstants.profileView,
+    ),
+    RoutesModel(
+      tabTitle: 'Favorites',
+      routeTitle: AppRoutesConstants.favoritesView,
+    ),
+  ];
 }

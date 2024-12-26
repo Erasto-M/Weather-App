@@ -19,7 +19,7 @@ class MoreCitiesView extends StatelessWidget {
                 padding: EdgeInsets.only(left: 2.h),
                 child: const Icon(
                   Icons.arrow_back_ios,
-                  size: 30,
+                  size: 25,
                   color: Colors.grey,
                 ),
               )),
